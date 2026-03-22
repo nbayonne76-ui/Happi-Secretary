@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: happi
+      POSTGRES_PASSWORD: happi
+      POSTGRES_DB: happi_secretary
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U happi -d happi_secretary"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://happi:happi@db:5432/happi_secretary
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app   # Hot reload in dev
+
+  dashboard:
+    build: ./dashboard
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:8000
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
