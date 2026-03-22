@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "change-me-in-production"
 
     # Database
-    DATABASE_URL: str = "postgresql+asyncpg://happi:happi@db:5432/happi_secretary"
+    DATABASE_URL: str = "sqlite+aiosqlite:///./happi_secretary.db"
 
     # Vapi.ai
     VAPI_API_KEY: str = ""
