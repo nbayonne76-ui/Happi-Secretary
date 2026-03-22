@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Phone, PhoneOff, Send, Mic, Calendar, ArrowRightLeft, MessageSquare, Loader2, RefreshCw } from 'lucide-react'
 import { api, Client } from '@/lib/api'
 
-const BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+const BASE = ''  // Uses Next.js proxy — /api/* → backend
 
 interface Message {
   role: 'user' | 'assistant' | 'system'

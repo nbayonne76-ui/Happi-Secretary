@@ -1,4 +1,6 @@
-const BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+// All requests go through Next.js proxy → /api/* → backend
+// Works server-side AND client-side without any URL config
+const BASE = typeof window === 'undefined' ? (process.env.API_URL || 'http://localhost:8001') : ''
 
 async function req<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
