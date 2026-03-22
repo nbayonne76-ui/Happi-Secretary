@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Node
+node_modules/
+.next/
+dashboard/.next/
+
+# Docker
+postgres_data/
